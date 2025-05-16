@@ -16,10 +16,13 @@ export default function AccountComponent({
   }, []);
 
   async function handleCreate() {
-    if (!username.trim()) return;
+    console.log("handleCreate called with username:", username);
+    if (!username.trim()) {
+      console.log("Username is empty, returning early.");
+      return;
+    }
     try {
       const { publicKey, privateKey } = await generateRSAKeys();
-      // Export keys to JsonWebKey
       const exportedPublicKey = await window.crypto.subtle.exportKey('jwk', publicKey);
       const exportedPrivateKey = await window.crypto.subtle.exportKey('jwk', privateKey);
 
