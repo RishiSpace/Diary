@@ -34,3 +34,9 @@ export async function addEntry(entry: DiaryEntry) {
     body: JSON.stringify(entry),
   });
 }
+
+export async function deleteEntry(entryId: string) {
+  await fetch(`http://localhost:4000/api/entries/${entryId}`, {
+    method: 'DELETE',
+  });
+}

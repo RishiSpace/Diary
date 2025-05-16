@@ -19,11 +19,12 @@ db.run(`CREATE TABLE IF NOT EXISTS accounts (
   publicKey TEXT,
   privateKey TEXT
 )`);
-// Entries: id (TEXT PRIMARY KEY), accountId (TEXT), date (TEXT), content (TEXT)
+// Entries: id (TEXT PRIMARY KEY), accountId (TEXT), date (TEXT), title (TEXT), content (TEXT)
 db.run(`CREATE TABLE IF NOT EXISTS entries (
   id TEXT PRIMARY KEY,
   accountId TEXT,
   date TEXT,
+  title TEXT,
   content TEXT
 )`);
 
@@ -58,15 +59,23 @@ app.get('/api/entries/:accountId', (req, res) => {
 
 // API: Add entry
 app.post('/api/entries', (req, res) => {
-  const { id, accountId, date, content } = req.body;
+  const { id, accountId, date, title, content } = req.body;
   db.run(
-    'INSERT INTO entries (id, accountId, date, content) VALUES (?, ?, ?, ?)',
-    [id, accountId, date, content],
+    'INSERT INTO entries (id, accountId, date, title, content) VALUES (?, ?, ?, ?, ?)',
+    [id, accountId, date, title, content],
     function (err) {
       if (err) return res.status(500).json({ error: err.message });
       res.json({ success: true });
     }
   );
+});
+
+// API: Delete entry
+app.delete('/api/entries/:entryId', (req, res) => {
+  db.run('DELETE FROM entries WHERE id = ?', [req.params.entryId], function (err) {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ success: true });
+  });
 });
 
 const PORT = 4000;

@@ -16,5 +16,6 @@ export interface DiaryEntry {
     id: string;
     accountId: string;
     date: string;
+    title: string; // New: Title for the note
     content: string; // Encrypted
 }
