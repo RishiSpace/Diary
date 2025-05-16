@@ -1,0 +1,176 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark {
+  --bg: #181c24;
+  --fg: #f8f8f8;
+  --blur-bg: rgba(24,28,36,0.7);
+}
+
+body.light {
+  --bg: #f8f8f8;
+  --fg: #181c24;
+  --blur-bg: rgba(255,255,255,0.7);
+}
+
+.app-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  background: var(--blur-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+}
+
+textarea {
+  width: 100%;
+  min-height: 300px;
+  border-radius: 12px;
+  border: 1px solid #353b45;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #1e2228;
+  color: #fff;
+  font-size: 1.1rem;
+  resize: vertical;
+}
+
+button {
+  background: #6c63ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  margin: 0.5rem 0;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #5548c8;
+}
+
+.account-container, .diary-list {
+  margin-bottom: 2rem;
+}
+
+.entry-content {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: var(--blur-bg);
+  font-size: 1rem;
+}
+
+.vscode-layout {
+  display: flex;
+  height: 90vh;
+  background: var(--bg);
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar {
+  width: 280px;
+  background: #23272e;
+  color: #fff;
+  border-right: 1px solid #222;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0.5rem;
+  min-width: 220px;
+  max-width: 320px;
+  height: 100%;
+}
+
+.sidebar-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-list li {
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+  color: #d4d4d4;
+}
+
+.sidebar-list li.selected, .sidebar-list li:hover {
+  background: #353b45;
+  color: #fff;
+}
+
+.entry-preview {
+  font-size: 0.9em;
+  color: #b0b0b0;
+  margin-top: 0.2em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.main-editor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 2.5rem;
+  background: var(--blur-bg);
+  min-width: 0;
+  height: 100%;
+}
+
+.main-editor-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.themed-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0 1rem 0;
+  border-radius: 8px;
+  border: 1px solid #353b45;
+  background: #23272e;
+  color: #f8f8f8;
+  font-size: 1.05rem;
+  transition: border 0.2s, box-shadow 0.2s;
+  outline: none;
+  box-shadow: none;
+}
+.themed-input:focus {
+  border: 1.5px solid #6c63ff;
+  box-shadow: 0 0 0 2px #6c63ff33;
+  background: #23272e;
+}
+
+@media (max-width: 700px) {
+  .vscode-layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    max-width: none;
+    border-right: none;
+    border-bottom: 1px solid #222;
+    min-height: 120px;
+    height: auto;
+  }
+  .main-editor {
+    padding: 1rem;
+  }
+}
