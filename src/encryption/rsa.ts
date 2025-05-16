@@ -1,20 +1,21 @@
 export async function generateRSAKeys() {
-  const keyPair = await window.crypto.subtle.generateKey(
+  if (
+    typeof window === 'undefined' ||
+    !window.crypto ||
+    !window.crypto.subtle
+  ) {
+    throw new Error('WebCrypto API is not available. Make sure this code runs in a browser.');
+  }
+  return window.crypto.subtle.generateKey(
     {
-      name: "RSA-OAEP",
+      name: 'RSA-OAEP',
       modulusLength: 2048,
       publicExponent: new Uint8Array([1, 0, 1]),
-      hash: "SHA-256",
+      hash: 'SHA-256',
     },
     true,
-    ["encrypt", "decrypt"]
+    ['encrypt', 'decrypt']
   );
-  const publicKey = await window.crypto.subtle.exportKey("jwk", keyPair.publicKey);
-  const privateKey = await window.crypto.subtle.exportKey("jwk", keyPair.privateKey);
-  return {
-    publicKey,
-    privateKey,
-  };
 }
 
 export async function encryptWithPublicKey(publicKeyJwk: JsonWebKey, data: string) {

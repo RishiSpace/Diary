@@ -17,22 +17,38 @@ export default function AccountComponent({
 
   async function handleCreate() {
     if (!username.trim()) return;
-    const { publicKey, privateKey } = await generateRSAKeys();
-    const account: Account = {
-      id: Date.now().toString(),
-      username,
-      publicKey,
-      privateKey,
-    };
-    await addAccount(account);
-    setAccounts(await getAccounts());
-    onLogin(account);
+    try {
+      const { publicKey, privateKey } = await generateRSAKeys();
+      // Export keys to JsonWebKey
+      const exportedPublicKey = await window.crypto.subtle.exportKey('jwk', publicKey);
+      const exportedPrivateKey = await window.crypto.subtle.exportKey('jwk', privateKey);
+
+      const account: Account = {
+        id: Date.now().toString(),
+        username,
+        publicKey: exportedPublicKey,
+        privateKey: exportedPrivateKey,
+      };
+      await addAccount(account);
+      setAccounts(await getAccounts());
+      onLogin(account);
+    } catch (err) {
+      alert(
+        "Failed to generate keys. Make sure you are running this in a supported browser environment."
+      );
+      console.error(err);
+    }
   }
 
   function handleLogin(id: string) {
     const acc = accounts.find((a) => a.id === id);
     if (acc) onLogin(acc);
   }
+
+  const cryptoAvailable =
+    typeof window !== "undefined" &&
+    !!window.crypto &&
+    !!window.crypto.subtle;
 
   return (
     <div className="account-container">
@@ -50,7 +66,9 @@ export default function AccountComponent({
         onChange={(e) => setUsername(e.target.value)}
         className="themed-input"
       />
-      <button onClick={handleCreate}>Create Account</button>
+      <button onClick={handleCreate} disabled={!cryptoAvailable}>
+        Create Account
+      </button>
     </div>
   );
 }
